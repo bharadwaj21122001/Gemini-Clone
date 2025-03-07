@@ -26,4 +26,4 @@ dist-ssr
 /package-lock.json
 /package.json
 .env
-/src/assets
+src/assets
