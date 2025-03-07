@@ -24,6 +24,6 @@ dist-ssr
 *.sw?
 
 /package-lock.json
+/src/assets/
 /package.json
 .env
-src/assets
