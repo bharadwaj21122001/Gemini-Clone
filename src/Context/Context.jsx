@@ -16,19 +16,34 @@ const ContextProvider = (props) => {
             setResultData(prev=>prev+nextWord);
         },75*index)
     }
-    const onSent = async () => {
-        if(!input.trim()) return;
+
+    const newChat = () => {
+        setLoading(false)
+        setShowResult(false)
+    }
+
+    const onSent = async (prompt) => {
+        // if(!input.trim()) return;
 
         setResultData(""); // Clear previous result
         setLoading(true); // Set loading to true before API call
         setShowResult(true);
-        setRecentPrompt(input)
-        setPrevPrompts(prev=>[...prev,input])
+        let res;
+        if (prompt !== undefined) {
+            res = await run(prompt);
+            setRecentPrompt(prompt)
+        }
+        else
+        {
+            setPrevPrompts(prev=>[...prev,input])
+            setRecentPrompt(input)
+            res = await run(input)
+        }
 
         try{
             const response = await run(input); // Pass 'prompt' to the API
             let responseArray = response.split("**");
-            let newResponse;
+            let newResponse="";
             for (let i = 0; i < responseArray.length; i++)
             {
                 if (i === 0 || i%2 !== 1) {
@@ -65,7 +80,8 @@ const ContextProvider = (props) => {
         loading,
         resultData,
         input,
-        setInput
+        setInput,
+        newChat
     }
 
     return (
